@@ -1,7 +1,13 @@
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import io.restassured.response.ResponseBody;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 public class LearnQATests {
 
@@ -121,4 +127,65 @@ public class LearnQATests {
         System.out.println("Результат: " + result);
     }
 
+    @Test
+    public void passwordSearch() {
+        String login = "super_admin";
+        String notAuth = "You are NOT authorized";
+        HashSet<String> passwordSet = new HashSet<>();
+        JsonPath jsonPath = RestAssured
+                .get("https://sheet2api.com/wiki-api/List_of_the_most_common_passwords/en/Top+25+most+common+passwords+by+year+according+to+SplashData")
+                .jsonPath();
+
+        List<String> list2011 = jsonPath.getList("2011");
+        passwordSet.addAll(list2011);
+        List<String> list2012 = jsonPath.getList("2012");
+        passwordSet.addAll(list2012);
+        List<String> list2013 = jsonPath.getList("2013");
+        passwordSet.addAll(list2013);
+        List<String> list2014 = jsonPath.getList("2014");
+        passwordSet.addAll(list2014);
+        List<String> list2015 = jsonPath.getList("2015");
+        passwordSet.addAll(list2015);
+        List<String> list2016 = jsonPath.getList("2016");
+        passwordSet.addAll(list2016);
+        List<String> list2017 = jsonPath.getList("2017");
+        passwordSet.addAll(list2017);
+        List<String> list2018 = jsonPath.getList("2018");
+        passwordSet.addAll(list2018);
+        List<String> list2019 = jsonPath.getList("2019");
+        passwordSet.addAll(list2019);
+
+        for (String password : passwordSet) {
+
+            HashMap<String, String> body = new HashMap<>();
+            body.put("login", login);
+            body.put("password", password);
+
+            Response response = RestAssured
+                    .given()
+                    .body(body)
+                    .when()
+                    .post("https://playground.learnqa.ru/ajax/api/get_secret_password_homework")
+                    .andReturn();
+
+            String authCookie = response.getCookie("auth_cookie");
+
+            HashMap<String, String> cookie = new HashMap<>();
+            cookie.put("auth_cookie", authCookie);
+
+            Response checkResponse = RestAssured
+                    .given()
+                    .cookies(cookie)
+                    .when()
+                    .get("https://playground.learnqa.ru/ajax/api/check_auth_cookie")
+                    .andReturn();
+
+            String responseBody = checkResponse.getBody().asString();
+            if (!responseBody.equals(notAuth)) {
+                System.out.println("Фраза: " + responseBody);
+                System.out.println("Пароль: " + password);
+                break;
+            }
+        }
+    }
 }
