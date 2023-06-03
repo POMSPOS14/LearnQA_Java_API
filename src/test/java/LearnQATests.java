@@ -82,4 +82,43 @@ public class LearnQATests {
         System.out.println("Количество редиректов: " + count);
     }
 
+    @Test
+    public void tokens() throws InterruptedException {
+        String notReady = "Job is NOT ready";
+        String ready = "Job is ready";
+
+        JsonPath jsonPath = RestAssured
+                .get("https://playground.learnqa.ru/ajax/api/longtime_job")
+                .jsonPath();
+
+        jsonPath.prettyPrint();
+
+        String token = jsonPath.getString("token");
+        Integer seconds = jsonPath.getInt("seconds");
+
+        String status = notReady;
+        JsonPath jsonPathWithToken = null;
+
+        while (!status.equals(ready)) {
+            jsonPathWithToken = RestAssured
+                    .given()
+                    .queryParam("token", token)
+                    .get("https://playground.learnqa.ru/ajax/api/longtime_job")
+                    .jsonPath();
+
+            jsonPathWithToken.prettyPrint();
+
+            status = jsonPathWithToken.getString("status");
+
+            if (status.equals(notReady)) {
+                System.out.println("Жду " + (seconds + 1) + " секунд");
+                Thread.sleep((seconds + 1) * 1000);
+            }
+        }
+
+        String result = jsonPathWithToken.getString("result");
+        System.out.println("Результат присутствует: " + !result.equals(null));
+        System.out.println("Результат: " + result);
+    }
+
 }
