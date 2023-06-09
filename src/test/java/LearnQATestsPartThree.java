@@ -1,4 +1,6 @@
 import io.restassured.RestAssured;
+import io.restassured.http.Header;
+import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
@@ -19,10 +21,18 @@ public class LearnQATestsPartThree {
     }
 
     @Test
-    public void responsePrint() {
+    public void cookieCheck() {
         Response response = RestAssured
                 .get("https://playground.learnqa.ru/api/homework_cookie")
                 .andReturn();
         assertEquals(response.getCookie("HomeWork"),"hw_value", "Cookie not valid");
+    }
+
+    @Test
+    public void headerCheck() {
+        Response response = RestAssured
+                .get("https://playground.learnqa.ru/api/homework_header")
+                .andReturn();
+        assertEquals(response.getHeader("x-secret-homework-header"),"Some secret value", "Header not valid");
     }
 }
