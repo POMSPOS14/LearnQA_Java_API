@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class LearnQATestsPartThree {
 
     @ParameterizedTest
-    @ValueSource(strings = {"lessthanfifteen", "more than fifteen"})
+    @ValueSource(strings = {"lessfifteen", "more than fifteen"})
     public void shortPhrase(@NotNull String string) {
         assertTrue(string.length() > 15, "String have less than fifteen characters");
     }
