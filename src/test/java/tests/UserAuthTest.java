@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Epic("Authorisation cases")
-@Feature("Autorization")
+@Feature("Authorisation")
 public class UserAuthTest extends BaseTestCase {
 
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
