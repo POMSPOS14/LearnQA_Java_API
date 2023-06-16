@@ -63,7 +63,7 @@ public class UserAuthTest extends BaseTestCase {
     public void testNegativeAuthUser(String condition) {
 
         if (condition.equals("cookie")) {
-            Response responseForCheck = apiCoreRequests.makeGetRequestwithCookie(
+            Response responseForCheck = apiCoreRequests.makeGetRequestWithCookie(
                     "https://playground.learnqa.ru/api/user/auth",
                     this.cookie
             );

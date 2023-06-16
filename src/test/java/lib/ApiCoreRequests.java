@@ -22,12 +22,27 @@ public class ApiCoreRequests {
     }
 
     @Step("Make a GET-request with token and auth cookie")
+    public JsonPath makeGetRequestJson(String url, String token, String cookie) {
+        return given()
+                .filter(new AllureRestAssured())
+                .header(new Header("x-csrf-token", token))
+                .cookie("auth_sid", cookie)
+                .get(url)
+                .jsonPath();
+    }
+
+    @Step("Make a GET-request with token and auth cookie")
+    public JsonPath getUserDataJson(String userId, String token, String cookie) {
+        return makeGetRequestJson("https://playground.learnqa.ru/api/user/" + userId, token, cookie);
+    }
+
+    @Step("Make a GET-request with token and auth cookie")
     public Response getUserData(String userId, String token, String cookie) {
         return makeGetRequest("https://playground.learnqa.ru/api/user/" + userId, token, cookie);
     }
 
     @Step("Make a GET-request with auth cookie only")
-    public Response makeGetRequestwithCookie(String url, String cookie) {
+    public Response makeGetRequestWithCookie(String url, String cookie) {
         return given()
                 .filter(new AllureRestAssured())
                 .cookie("auth_sid", cookie)
@@ -86,5 +101,10 @@ public class ApiCoreRequests {
                 .body(editData)
                 .put(url)
                 .andReturn();
+    }
+
+    @Step("Make a PUT-request with token and auth cookie")
+    public Response changeUserData(String userId, String token, String cookie, Map<String, String> editData) {
+        return makePutRequest("https://playground.learnqa.ru/api/user/" + userId, token, cookie, editData);
     }
 }
