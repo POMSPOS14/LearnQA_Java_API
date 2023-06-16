@@ -1,6 +1,7 @@
 package tests;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Link;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
 import lib.Assertions;
@@ -14,6 +15,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.HashMap;
 import java.util.Map;
 
+@Link("https://playground.learnqa.ru/api/map")
 public class UserRegisterTest extends BaseTestCase {
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 

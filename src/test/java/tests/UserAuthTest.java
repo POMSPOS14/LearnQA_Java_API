@@ -3,6 +3,7 @@ package tests;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Link;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 @Epic("Authorisation cases")
 @Feature("Authorisation")
+@Link("https://playground.learnqa.ru/api/map")
 public class UserAuthTest extends BaseTestCase {
 
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();

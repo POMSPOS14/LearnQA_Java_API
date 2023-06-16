@@ -1,6 +1,7 @@
 package tests;
 
 import io.qameta.allure.Description;
+import io.qameta.allure.Link;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import lib.ApiCoreRequests;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Link("https://playground.learnqa.ru/api/map")
 public class UserEditTest extends BaseTestCase {
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 
